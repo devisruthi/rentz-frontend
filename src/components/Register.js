@@ -105,7 +105,7 @@ function Register() {
 
         // If there are errors
         if (errors.length > 0) {
-            
+
             setState(
                 {
                     loading: false,
@@ -187,7 +187,6 @@ function Register() {
 
     const classes = useStyles();
 
-
     return (
         <Grid container component="main" className={classes.root}>
             <CssBaseline />
@@ -215,6 +214,17 @@ function Register() {
                                         )
                                     }
                                 </ol>
+                            </div>
+                        }
+
+                        {
+                            /* Success message and login */
+                            state.registeredSuccess === true &&
+                            <div className="alert alert-success">
+                                Account registered succesfully!
+                                <Link href="login" className="btn">
+                                    Login
+                                </Link>
                             </div>
                         }
 
