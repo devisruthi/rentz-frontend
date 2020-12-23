@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 // import Paper from '@material-ui/core/Paper';
@@ -13,6 +12,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import LinearProgress from '@material-ui/core/LinearProgress'
 
 function Copyright() {
     return (
@@ -30,9 +30,9 @@ function Copyright() {
 const useStyles = makeStyles((theme) => ({
     root: {
         height: '100vh',
-      },
+    },
     image: {
-        backgroundImage: 'url(https://source.unsplash.com/featured/?furniture)',
+        backgroundImage: 'url(https://images.unsplash.com/photo-1586023492125-27b2c045efd7)',
         backgroundRepeat: 'no-repeat',
         backgroundColor:
             theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
@@ -51,24 +51,148 @@ const useStyles = makeStyles((theme) => ({
     },
     form: {
         width: '100%', // Fix IE 11 issue.
-        marginTop: theme.spacing(3),
+        marginTop: theme.spacing(2),
         padding: theme.spacing(3),
     },
     submit: {
         margin: theme.spacing(3, 0, 2),
     },
-
+    progressBar: {
+        margin: theme.spacing(3, 0, 2),
+    },
 }));
 
 
-export default function Register() {
+function Register() {
+
+    const [state, setState] = useState(
+        {
+            showErrors: false,
+            loading: false,
+            registeredSuccess: false
+        }
+    )
+
+    let firstNameField;
+    let lastNameField;
+    let emailField;
+    let passwordField;
+    let tcsCheckBox;
+
+    const registerUser = () => {
+
+        const errors = [];
+        // Validate the user's input
+        if (firstNameField.value.length === 0) {
+            errors.push("Please enter your first name!");
+        }
+
+        if (lastNameField.value.length === 0) {
+            errors.push("Please enter your last name!");
+        }
+
+        if (emailField.value.length === 0) {
+            errors.push("Please enter your email!");
+        }
+
+        if (passwordField.value.length === 0) {
+            errors.push("Please enter your password!");
+        }
+
+        if (tcsCheckBox.checked === false) {
+            errors.push("You need to accept terms & conditions.");
+        }
+
+        // If there are errors
+        if (errors.length > 0) {
+            
+            setState(
+                {
+                    loading: false,
+                    showErrors: true,
+                    errors: errors,
+                    registeredSuccess: false
+                }
+            )
+        }
+        // If no errors
+        else {
+            setState(
+                {
+                    loading: true,
+                    showErrors: false,
+                    errors: null,
+                    registeredSuccess: false
+                }
+            );
+
+            // Capture all of user's response
+            // 1. Create an object called formData
+            // 2. For every field, add index and value to formData
+            const formData = {
+                firstName: firstNameField.value,
+                lastName: lastNameField.value,
+                email: emailField.value,
+                password: passwordField.value
+            };
+
+            // 4. Send to backend
+            fetch(
+                'http://localhost:3001/users/register',
+                {
+                    method: 'POST',
+                    body: JSON.stringify(formData),
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                }
+            )
+                // First, convert string from backend to json
+                .then(
+                    (backendResponse) => backendResponse.json()
+                )
+                // Then, we can read the json from backend
+                .then(
+                    (json) => {
+                        console.log(json);
+                        setState(
+                            {
+                                loading: false,
+                                showErrors: false,
+                                errors: null,
+                                registeredSuccess: true
+                            }
+                        );
+                    }
+                )
+                // If promise did not resolve
+                .catch(
+                    (error) => {
+                        console.log('An error occured ', error);
+
+                        setState(
+                            {
+                                loading: false,
+                                showErrors: true,
+                                errors: ["Something went wrong. Try again after sometime."],
+                                registeredSuccess: false
+                            }
+                        );
+
+                    }
+                )
+
+        }
+    }
+
     const classes = useStyles();
+
 
     return (
         <Grid container component="main" className={classes.root}>
             <CssBaseline />
-            <Grid item xs={false} sm={4} md={6} className={classes.image} />
-            <Grid item xs={12} sm={8} md={6}  elevation={6} square>
+            <Grid item xs={false} sm={4} md={7} className={classes.image} />
+            <Grid item xs={12} sm={8} md={5} elevation={6} square>
                 <div>
                     <div className={classes.paper}>
                         <Avatar className={classes.avatar}>
@@ -76,11 +200,29 @@ export default function Register() {
                         </Avatar>
                         <Typography component="h1" variant="h5">
                             Sign up
-        </Typography>
+                        </Typography>
+                        <br />
+                        {
+                            state.showErrors === true &&
+                            <div className=" error-messages alert alert-danger w-75">
+                                <ol>
+                                    {
+                                        state.errors.map(
+                                            (error) =>
+                                                <li>
+                                                    {error}
+                                                </li>
+                                        )
+                                    }
+                                </ol>
+                            </div>
+                        }
+
                         <form className={classes.form} noValidate>
                             <Grid container spacing={2}>
                                 <Grid item xs={12} sm={6}>
                                     <TextField
+                                        inputRef={elem => firstNameField = elem}
                                         autoComplete="fname"
                                         name="firstName"
                                         variant="outlined"
@@ -93,6 +235,7 @@ export default function Register() {
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
                                     <TextField
+                                        inputRef={elem => lastNameField = elem}
                                         variant="outlined"
                                         required
                                         fullWidth
@@ -104,6 +247,7 @@ export default function Register() {
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField
+                                        inputRef={elem => emailField = elem}
                                         variant="outlined"
                                         required
                                         fullWidth
@@ -115,6 +259,7 @@ export default function Register() {
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField
+                                        inputRef={elem => passwordField = elem}
                                         variant="outlined"
                                         required
                                         fullWidth
@@ -126,26 +271,33 @@ export default function Register() {
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <FormControlLabel
-                                        control={<Checkbox value="allowExtraEmails" color="primary" />}
-                                        label="I want to receive inspiration, marketing promotions and updates via email."
-                                    />
+                                    <label>Do you agree to terms &amp; conditions? *</label>
+                                    <input
+                                        ref={(elem) => tcsCheckBox = elem}
+                                        className="checkbox" name="termsConditions" type="checkbox" /> Yes
                                 </Grid>
                             </Grid>
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                color="primary"
-                                className={classes.submit}
-                            >
-                                Sign Up
-          </Button>
+                            {
+                                !state.loading && !state.registeredSuccess &&
+                                <Button
+                                    fullWidth
+                                    variant="contained"
+                                    color="primary"
+                                    className={classes.submit}
+                                    onClick={registerUser}
+                                >
+                                    Sign Up
+                            </Button>
+                            }
+                            {
+                                state.loading &&
+                                <LinearProgress className={classes.progressBar} />
+                            }
                             <Grid container justify="flex-end">
                                 <Grid item>
                                     <Link href="login" variant="body2">
                                         Already have an account? Sign in
-              </Link>
+                                    </Link>
                                 </Grid>
                             </Grid>
                         </form>
@@ -159,3 +311,4 @@ export default function Register() {
     );
 }
 
+export default Register
