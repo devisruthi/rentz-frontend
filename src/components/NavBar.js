@@ -43,6 +43,11 @@ function NavBar() {
             RENTZ
           </Typography>
           <nav>
+            <Link variant="button" color="textPrimary" href="products" className={classes.link}>
+              Products
+            </Link>
+          </nav>
+          <nav>
             <Link variant="button" color="textPrimary" href="register" className={classes.link}>
               Register
             </Link>
