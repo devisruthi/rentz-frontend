@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -11,6 +11,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import PhoneIcon from '@material-ui/icons/Phone';
 import MailDialog from './MailDialog';
+import { CenterFocusStrong } from '@material-ui/icons';
+
 
 const useStyles = makeStyles((theme) => ({
     cardGrid: {
@@ -31,64 +33,72 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const products = [
-    {
-        "images": ["https://images.unsplash.com/photo-1589834390005-5d4fb9bf3d32?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80"],
-        "_id": "5fe58db79464df477838ea04",
-        "category": "Home Furniture,",
-        "title": " dining table",
-        "description": "{age:less than one year, dimension:100cmx90cmx70cm, comments:elegant, foldable design}",
-        "monthlyRent": 100,
-        "sellerEmail": "pp@gmail.com",
-        "__v": 0
-    },
-    {
-        "images": ["https://source.unsplash.com/random", "https://source.unsplash.com/random"],
-        "_id": "5fe58db79464df477838ea04",
-        "category": "Home Furniture,",
-        "title": " Watch",
-        "description": "{age:less than one year, dimension:100cmx90cmx70cm, comments:elegant, foldable design}",
-        "monthlyRent": 100,
-        "sellerEmail": "pp@gmail.com",
-        "__v": 0
-    },
-    {
-        "images": ["https://source.unsplash.com/random", "https://source.unsplash.com/random"],
-        "_id": "5fe58db79464df477838ea04",
-        "category": "Home Furniture,",
-        "title": " dining table Q",
-        "description": "{age:less than one year, dimension:100cmx90cmx70cm, comments:elegant, foldable design}",
-        "monthlyRent": 100,
-        "sellerEmail": "pp@gmail.com",
-        "__v": 0
-    },
-    {
-        "images": ["https://source.unsplash.com/random", "https://source.unsplash.com/random"],
-        "_id": "5fe58db79464df477838ea04",
-        "category": "Home Furniture,",
-        "title": " Dining Table",
-        "description": "{age:less than one year, dimension:100cmx90cmx70cm, comments:elegant, foldable design}",
-        "monthlyRent": 100,
-        "sellerEmail": "pp@gmail.com",
-        "__v": 0
-    }
-]
-
-
 function ProuctGrid(props) {
+
     const classes = useStyles();
+    const [state, setState] = useState({
+        products: [], errors: []
+    });
+
+
+    async function GetProducts() {
+        const fetchData = () => fetch(
+            'http://localhost:3001/products',
+        )
+            .then(
+                (backendResponse) => backendResponse.json()
+            )
+            .then(
+                (json) => {
+                    console.log(json);
+                    setState({ products: json, errors: [] })
+                }
+            )
+            .catch(
+                (errorObj) => {
+                    console.log(errorObj)
+                    setState({ ...state, errors: ["Sorry! No products available at this moment. Try again later"] })
+                }
+            )
+
+        fetchData();
+    }
+
+
+    if (state.products.length === 0) {
+        GetProducts();
+    }
 
     return (
         <React.Fragment>
             <CssBaseline />
+
+            {
+                // Error if no products found
+                state.errors.length > 0 &&
+                <Container className={classes.cardGrid} maxWidth="md">
+                    <div className="alert alert-danger text-center">
+                        <ul>
+                            {
+                                state.errors.map(
+                                    (error) =>
+                                        <li>
+                                            {error}
+                                        </li>
+                                )
+                            }
+                        </ul>
+                    </div>
+                </Container>
+            }
             <Container className={classes.cardGrid} maxWidth="md">
                 <Grid container spacing={4}>
-                    {products.map((product) => (
+                    {state.products !== [] && state.products.map((product) => (
                         <Grid item key={product} xs={12} sm={6} md={4}>
                             <Card className={classes.card}>
                                 <CardMedia
                                     className={classes.cardMedia}
-                                    image={product.images[0]}
+                                    image={product.images.length > 0 && product.images[0]}
                                     title={product.title}
                                 />
                                 <CardContent className={classes.cardContent}>
@@ -96,7 +106,7 @@ function ProuctGrid(props) {
                                         {product.title}
                                     </Typography>
                                     <Typography>
-                                        {product.description}
+                                        {product.summary}
                                     </Typography>
                                 </CardContent>
                                 <CardActions>

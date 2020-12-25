@@ -5,6 +5,7 @@ import Footer from '../components/Footer';
 
 function ProductScreen() {
   return (
+    
     <div className="ProductScreen">
       <SiteInfo></SiteInfo>
       <ProductGrid></ProductGrid>
