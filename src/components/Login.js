@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,7 +12,8 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import LinearProgress from '@material-ui/core/LinearProgress'
+import LinearProgress from '@material-ui/core/LinearProgress';
+import AppContext from '../context/AppContext';
 
 function Copyright() {
   return (
@@ -63,6 +64,8 @@ const useStyles = makeStyles((theme) => ({
 
 function Login() {
 
+  const [globalState, setGlobalState] = useContext(AppContext);
+
   const [state, setState] = useState(
     {
       showErrors: false,
@@ -77,7 +80,6 @@ function Login() {
 
   const loginUser = () => {
 
-    console.log("try log in user");
     const errors = [];
     // Validate the user's input
 
@@ -94,6 +96,7 @@ function Login() {
       console.log(errors)
       setState(
         {
+          ...state,
           loading: false,
           showErrors: true,
           errors: errors,
@@ -105,6 +108,7 @@ function Login() {
     else {
       setState(
         {
+          ...state,
           loading: true,
           showErrors: false,
           errors: null,
@@ -142,22 +146,32 @@ function Login() {
         // Then, we can read the json from backend
         .then(
           (json) => {
-            console.log(json)
+            //console.log(json)
             // Call and login was successful
-            if (fetchStatus === 200) {
+            if (fetchStatus === 200 && json.theToken) {
               setState(
                 {
+                  ...state,
                   loading: false,
                   showErrors: false,
                   errors: null,
                   loginSuccess: true
                 }
               );
+              setGlobalState(
+                {
+                  ...globalState,
+                  loggedIn: true
+                }
+              );
+              localStorage.setItem('jwt', json.theToken);
+
             }
             else {
               // Call was succesfull, but login failed, messaged returned from backend
               setState(
                 {
+                  ...state,
                   loading: false,
                   showErrors: true,
                   errors: [json.message],
@@ -175,6 +189,7 @@ function Login() {
 
             setState(
               {
+                ...state,
                 loading: false,
                 showErrors: true,
                 errors: ["Something went wrong. Try again after sometime."],
@@ -203,7 +218,7 @@ function Login() {
           <br />
           {
             state.showErrors === true &&
-            <div className=" error-messages alert alert-danger w-75">
+            <div className=" error-messages alert alert-danger w-75 text-center">
               <ul>
                 {
                   state.errors.map(
@@ -223,7 +238,7 @@ function Login() {
             <div className="alert alert-success">
               Welcome to Rentz !
               <Link href="profile" className="btn">
-                  View Profile
+                View Profile
               </Link>
             </div>
           }
@@ -254,7 +269,7 @@ function Login() {
               autoComplete="current-password"
             />
             <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
+              control={<Checkbox value="remember" checked  color="primary" />}
               label="Remember me"
             />
             {
@@ -275,9 +290,9 @@ function Login() {
             }
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                {/* <Link href="#" variant="body2">
                   Forgot password?
-                </Link>
+                </Link> */}
               </Grid>
               <Grid item>
                 <Link href="register" variant="body2">
