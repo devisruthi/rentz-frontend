@@ -22,7 +22,7 @@ function SiteInfo() {
       <CssBaseline /> 
       <div className={classes.siteInfo}>
           <Container maxWidth="sm">
-            <Typography component="h1" variant="h2" align="center" color="Primary" gutterBottom>
+            <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
               Style your home
             </Typography>
             <Typography variant="h5" align="center" color="textSecondary" paragraph>

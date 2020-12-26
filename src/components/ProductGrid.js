@@ -11,7 +11,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import PhoneIcon from '@material-ui/icons/Phone';
 import MailDialog from './MailDialog';
-import { CenterFocusStrong } from '@material-ui/icons';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -50,7 +49,7 @@ function ProuctGrid(props) {
             )
             .then(
                 (json) => {
-                    console.log(json);
+                    //console.log(json);
                     setState({ products: json, errors: [] })
                 }
             )
@@ -61,18 +60,17 @@ function ProuctGrid(props) {
                 }
             )
 
-        fetchData();
+        if (state.products.length === 0) {
+            await fetchData();
+        }
     }
 
-
-    if (state.products.length === 0) {
-        GetProducts();
-    }
+    // Get data from backend server and populate state.products
+    GetProducts();
 
     return (
         <React.Fragment>
             <CssBaseline />
-
             {
                 // Error if no products found
                 state.errors.length > 0 &&
@@ -94,7 +92,7 @@ function ProuctGrid(props) {
             <Container className={classes.cardGrid} maxWidth="md">
                 <Grid container spacing={4}>
                     {state.products !== [] && state.products.map((product) => (
-                        <Grid item key={product} xs={12} sm={6} md={4}>
+                        <Grid key={product._id} item xs={12} sm={6} md={4}>
                             <Card className={classes.card}>
                                 <CardMedia
                                     className={classes.cardMedia}

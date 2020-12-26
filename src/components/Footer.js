@@ -12,7 +12,7 @@ function Copyright() {
             {'Copyright © '}
             <Link color="inherit" href="https://material-ui.com/">
                 Rentz
-        </Link>{' '}
+            </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
         </Typography>
@@ -44,7 +44,7 @@ function Footer() {
             <CssBaseline />
             <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
                 <Toolbar className={classes.toolbar}>
-                    <Typography variant="h11" color="inherit" noWrap className={classes.toolbarTitle}>
+                    <Typography variant="h5" color="inherit" noWrap className={classes.toolbarTitle}>
                         <Copyright />
                     </Typography>
                 </Toolbar>
