@@ -18,7 +18,7 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
+      <Link color="inherit" href="#">
         Rentz
       </Link>{' '}
       {new Date().getFullYear()}
@@ -123,7 +123,7 @@ function Login() {
       // 4. Send to backend
       let fetchStatus;
       fetch(
-        'http://localhost:3001/users/login',
+        `${process.env.REACT_APP_BACKEND}/users/login`,
         {
           method: 'POST',
           body: JSON.stringify(formData),

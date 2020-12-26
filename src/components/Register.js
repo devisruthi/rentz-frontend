@@ -15,9 +15,9 @@ function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
             {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
+            <Link color="inherit" href="#">
                 Rentz
-      </Link>{' '}
+            </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
         </Typography>
@@ -135,7 +135,7 @@ function Register() {
 
             // 4. Send to backend
             fetch(
-                'http://localhost:3001/users/register',
+                `${process.env.REACT_APP_BACKEND}/users/register`,
                 {
                     method: 'POST',
                     body: JSON.stringify(formData),
@@ -200,8 +200,8 @@ function Register() {
                         <br />
                         {
                             state.showErrors === true &&
-                            <div className=" error-messages alert alert-danger w-75">
-                                <ol>
+                            <div className=" error-messages alert alert-danger w-75 text-center">
+                                <ul>
                                     {
                                         state.errors.map(
                                             (error) =>
@@ -210,7 +210,7 @@ function Register() {
                                                 </li>
                                         )
                                     }
-                                </ol>
+                                </ul>
                             </div>
                         }
 

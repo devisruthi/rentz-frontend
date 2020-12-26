@@ -42,14 +42,14 @@ function ProuctGrid(props) {
 
     async function GetProducts() {
         const fetchData = () => fetch(
-            'http://localhost:3001/products',
+            `${process.env.REACT_APP_BACKEND}/products`,
         )
             .then(
                 (backendResponse) => backendResponse.json()
             )
             .then(
                 (json) => {
-                    //console.log(json);
+                    console.log("logging json : " , json);
                     setState({ products: json, errors: [] })
                 }
             )
