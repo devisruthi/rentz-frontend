@@ -1,10 +1,10 @@
 import React from 'react';
+import Profile from '../components/Profile';
 
 function ProfileScreen() {
   return (
     <div className="ProfileScreen">
-      <h1>PROFILE</h1>
-      
+      <Profile></Profile>
     </div>
   );
 }
