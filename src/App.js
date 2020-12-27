@@ -8,6 +8,7 @@ import LoginScreen from './views/LoginScreen';
 import RegistrationScreen from './views/RegistrationScreen';
 import ProductScreen from './views/ProductScreen';
 import ProfileScreen from './views/ProfileScreen';
+import AddProductScreen from './views/AddProductScreen';
 import AppContext from './context/AppContext';
 
 const App = () => {
@@ -28,6 +29,7 @@ const App = () => {
           <LayoutRoute path="/register" exact={true} component={RegistrationScreen} />
           <LayoutRoute path="/products" exact={true} component={ProductScreen} />
           <PrivateRoute path="/profile" exact={true} component={ProfileScreen} />
+          <PrivateRoute path="/addProduct" exact={true} component={AddProductScreen} />
         </Switch>
       </BrowserRouter>
     </AppContext.Provider>
