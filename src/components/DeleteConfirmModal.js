@@ -7,6 +7,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Link from '@material-ui/core/Link';
+import { render } from '@testing-library/react';
 
 function DeleteConfirmModal(props) {
   const [open, setOpen] = React.useState(false);
@@ -44,11 +45,12 @@ function DeleteConfirmModal(props) {
         (json) => {
           console.log(json);
           if (fetchStatus === 200) {
-            alert("Product marked as sold out")
+            console.log("Product marked as sold out")
           }
           else {
             alert(json.message)
           }
+          window.location.href = "/dashboard"
         }
       )
       // If promise did not resolve
@@ -59,6 +61,7 @@ function DeleteConfirmModal(props) {
       );
 
     setOpen(false);
+
   }
 
   return (

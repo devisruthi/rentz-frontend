@@ -237,8 +237,8 @@ function Login() {
             state.loginSuccess === true &&
             <div className="alert alert-success">
               Welcome to Rentz !
-              <Link href="profile" className="btn">
-                View Profile
+              <Link href="dashboard" className="btn">
+                View Dashboard
               </Link>
             </div>
           }

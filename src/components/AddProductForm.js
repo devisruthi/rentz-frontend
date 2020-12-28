@@ -295,11 +295,6 @@ function AddProductForm() {
                             <LinearProgress className={classes.progressBar} />
                         }
                         <Grid container justify="flex-end">
-                            <Grid item>
-                                <Link href="products" variant="body2">
-                                    View all Products
-              </Link>
-                            </Grid>
                         </Grid>
                     </form>
                 </div>

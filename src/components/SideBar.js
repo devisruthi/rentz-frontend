@@ -118,12 +118,14 @@ function SideBar() {
                 </SidebarHeader>
                 <SidebarContent>
                     <Menu iconShape="square">
-                        <MenuItem>Edit Profile 
+                        <MenuItem>Home
+                        <Link to="/home" />
+                        </MenuItem>
+
+                        <MenuItem>Edit Profile
                         <Link to="/profile" />
                         </MenuItem>
-                        <MenuItem>View all Products
-                        <Link to="/products" />
-                        </MenuItem>
+
                         <MenuItem>Add a Product
                         <Link to="/addProduct" />
                         </MenuItem>

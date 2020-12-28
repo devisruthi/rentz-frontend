@@ -6,7 +6,7 @@ import PrivateRoute from './routes/PrivateRoute';
 import HomeScreen from './views/HomeScreen';
 import LoginScreen from './views/LoginScreen';
 import RegistrationScreen from './views/RegistrationScreen';
-import ProductScreen from './views/ProductScreen';
+import DashboardScreen from './views/DashboardScreen';
 import ProfileScreen from './views/ProfileScreen';
 import AddProductScreen from './views/AddProductScreen';
 import AppContext from './context/AppContext';
@@ -62,12 +62,19 @@ const App = () => {
     <AppContext.Provider value={[globalState, setGlobalState]}>
       <BrowserRouter>
         <Switch>
+          {/* Routes */}
           <LayoutRoute path="/" exact={true} component={HomeScreen} />
+          <LayoutRoute path="/home" exact={true} component={HomeScreen} />
           <LayoutRoute path="/login" exact={true} component={LoginScreen} />
           <LayoutRoute path="/register" exact={true} component={RegistrationScreen} />
-          <LayoutRoute path="/products" exact={true} component={ProductScreen} />
+          <LayoutRoute path="/dashboard" exact={true} component={DashboardScreen} />
+
+          {/* Private routes */}
           <PrivateRoute path="/profile" exact={true} component={ProfileScreen} />
           <PrivateRoute path="/addProduct" exact={true} component={AddProductScreen} />
+
+          {/* All other routes */}
+          <LayoutRoute path="/*" exact={true} component={HomeScreen} />
         </Switch>
       </BrowserRouter>
     </AppContext.Provider>

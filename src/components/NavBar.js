@@ -56,22 +56,22 @@ function NavBar() {
             RENTZ
           </Typography>
           <nav>
-            <Link variant="button" color="textPrimary" href="products" className={classes.link}>
-              Products
+            <Link variant="button" color="textPrimary" href="home" className={classes.link}>
+              Home
             </Link>
           </nav>
 
           {globalState.loggedIn ?
             <React.Fragment>
               <nav>
-                <Link variant="button" color="textPrimary" href="profile" className={classes.link}>
-                  Profile
-                    </Link>
+                <Link variant="button" color="textPrimary" href="dashboard" className={classes.link}>
+                  Dashboard
+                </Link>
               </nav>
               <nav>
                 <Button onClick={handleLogOut} color="primary" variant="outlined" className={classes.link}>
                   LogOut
-                        </Button>
+                </Button>
               </nav>
             </React.Fragment> :
 
@@ -84,7 +84,7 @@ function NavBar() {
               <nav>
                 <Button href="login" color="primary" variant="outlined" className={classes.link}>
                   Login
-          </Button>
+                 </Button>
               </nav>
             </React.Fragment>
           }
