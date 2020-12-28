@@ -5,6 +5,7 @@ import SiteInfo from '../components/SiteInfo';
 import Footer from '../components/Footer';
 import AppContext from '../context/AppContext';
 import SideBar from '../components/SideBar';
+import WelcomeInfo from '../components/WelcomeInfo';
 
 function DashboardScreen() {
   const [globalState, setGlobalState] = useContext(AppContext);
@@ -14,12 +15,11 @@ function DashboardScreen() {
 
       {globalState.loggedIn ?
         <React.Fragment>
-          <div className="container-fluid">
-            <div className="d-flex flex-grow-1">
-              <SideBar></SideBar>
+
+              {/* <SideBar></SideBar> */}
+              <WelcomeInfo></WelcomeInfo>
               <UserProductGrid></UserProductGrid>
-            </div>
-          </div>
+         
           <Footer></Footer>
         </React.Fragment> :
 

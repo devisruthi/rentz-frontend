@@ -13,7 +13,7 @@ function AddProductScreen() {
             <div className="container-fluid">
 
                 <div className="d-flex flex-grow-1">
-                <SideBar></SideBar>
+                {/* <SideBar></SideBar> */}
                 <AddProductForm></AddProductForm>
                 
                 </div>
