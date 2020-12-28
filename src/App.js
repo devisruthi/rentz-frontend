@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Switch } from 'react-router-dom';
 import './App.css';
 import LayoutRoute from './routes/LayoutRoute';
@@ -18,6 +18,44 @@ const App = () => {
       loggedIn: localStorage.getItem('jwt') ? true : false,
       profile: null
     }
+  )
+
+  useEffect(
+    () => {
+      // if there is a token and globalState.profile is null
+      if (localStorage.getItem('jwt') && globalState.profile === null) {
+        // fetch GET to get profile details
+        fetch(
+          `${process.env.REACT_APP_BACKEND}/users/profile`,
+          {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+            }
+          }
+        )
+          .then(
+            (backendResponse) => backendResponse.json()
+          )
+          .then(
+            (json) => {
+              console.log('user\'s profile', json)
+
+              // update the globalState.profile
+              setGlobalState(
+                {
+                  ...globalState,
+                  profile: json
+                }
+              )
+              console.log('GS', globalState.profile)
+            }
+          ).catch(
+            error => console.log(error)
+          )
+      }
+    },
+    [globalState.loggedIn, globalState.profile]
   )
 
   return (

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -115,43 +115,6 @@ function Profile() {
             }
         )
     }
-    useEffect(
-        () => {
-            // if there is a token and globalState.profile is null
-            if (localStorage.getItem('jwt') && globalState.profile === null) {
-                // fetch GET to get profile details
-                fetch(
-                    `${process.env.REACT_APP_BACKEND}/users/profile`,
-                    {
-                        method: 'GET',
-                        headers: {
-                            'Authorization': `Bearer ${localStorage.getItem('jwt')}`
-                        }
-                    }
-                )
-                    .then(
-                        (backendResponse) => backendResponse.json()
-                    )
-                    .then(
-                        (json) => {
-                            console.log('user\'s profile', json)
-
-                            // update the globalState.profile
-                            setGlobalState(
-                                {
-                                    ...globalState,
-                                    profile: json
-                                }
-                            )
-                            console.log('GS', globalState.profile)
-                        }
-                    ).catch(
-                        error => console.log(error)
-                    )
-            }
-        },
-        [globalState.loggedIn, globalState.profile]
-    )
 
 
     const updateUser = () => {

@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import ProductGrid from '../components/ProductGrid';
+import UserProductGrid from '../components/UserProductsGrid';
 import SiteInfo from '../components/SiteInfo';
 import Footer from '../components/Footer';
 import AppContext from '../context/AppContext';
@@ -16,7 +17,7 @@ function HomeScreen() {
           <div className="container-fluid">
             <div className="d-flex flex-grow-1">
               <SideBar></SideBar>
-              <ProductGrid></ProductGrid>
+              <UserProductGrid></UserProductGrid>
             </div>
           </div>
           <Footer></Footer>
