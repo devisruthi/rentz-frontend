@@ -71,8 +71,8 @@ function CollapseNavBar() {
                     Dashboard
               </a>
                   <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a className="dropdown-item" href="dashboard">Dashboard</a>
-                    <a className="dropdown-item" href="addProduct">Add a product</a>
+                    <a className="dropdown-item" href="dashboard">View my Products</a>
+                    <a className="dropdown-item" href="addProduct">Add new product</a>
                     <div className="dropdown-divider" />
                     <a className="dropdown-item" href="profile">Edit Profile</a>
                   </div>

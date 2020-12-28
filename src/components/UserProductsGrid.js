@@ -43,7 +43,14 @@ function UserProuctGrid(props) {
 
     async function GetProducts() {
         const fetchData = () => fetch(
-            `${process.env.REACT_APP_BACKEND}/products/available`,
+            `${process.env.REACT_APP_BACKEND}/products/myProducts`,
+            {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+                    "Content-Type": "application/json"
+                }
+            }
         )
             .then(
                 (backendResponse) => backendResponse.json()
@@ -57,7 +64,7 @@ function UserProuctGrid(props) {
             .catch(
                 (errorObj) => {
                     console.log(errorObj)
-                    setState({ ...state, errors: ["Sorry! No products available at this moment. Try again later"] })
+                    setState({ ...state, errors: ["Sorry! No products available at this moment. Add products from dashboard"] })
                 }
             )
 
