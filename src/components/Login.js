@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import { useHistory }  from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -63,6 +64,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Login() {
+  const history = useHistory();
 
   const [globalState, setGlobalState] = useContext(AppContext);
 
@@ -165,6 +167,8 @@ function Login() {
                 }
               );
               localStorage.setItem('jwt', json.theToken);
+
+              history.push('/dashboard');
 
             }
             else {
